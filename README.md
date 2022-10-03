@@ -43,7 +43,7 @@ $token_provider = new AccessTokenProvider($config, $storage, new Client());
 
 $connector = new Connector($token_provider);
 
-// Retreiving data.
+// Retrieving data.
 $response = $connector->get('Leads?fields=Last_Name&per_page=5');
 print_r($response->decode());
 
