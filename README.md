@@ -19,7 +19,7 @@ composer require chi-teck/zoho-api-connector
 The way you obtain auth token (grant code) depends on the application type. Refer to [Authorization Request guide](https://www.zoho.com/crm/developer/docs/api/v3/auth-request.html) for details.
 
 ## Usage
-```shell
+```php
 // Configuring the connector.
 $config = new Config(
   domain: 'https://accounts.zoho.com',
