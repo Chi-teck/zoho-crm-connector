@@ -20,6 +20,16 @@ The way you obtain auth token (grant code) depends on the application type. Refe
 
 ## Usage
 ```php
+<?php declare(strict_types = 1);
+
+use GuzzleHttp\Client;
+use ZohoCrmConnector\Config;
+use ZohoCrmConnector\Connector;
+use ZohoCrmConnector\Auth\Storage\FileStorage;
+use ZohoCrmConnector\Auth\AccessTokenProvider;
+
+require __DIR__ . '/../vendor/autoload.php';
+
 // Configuring the connector.
 $config = new Config(
   domain: 'https://accounts.zoho.com',
