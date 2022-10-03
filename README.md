@@ -38,7 +38,7 @@ $config = new Config(
   authToken: '•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••',
 );
 
-$storage = new FileStorage(__DIR__ . '/path/to/zoho-token.bin');
+$storage = new FileStorage(__DIR__ . '/path/to/zoho-token');
 $token_provider = new AccessTokenProvider($config, $storage, new Client());
 
 $connector = new Connector($token_provider);
