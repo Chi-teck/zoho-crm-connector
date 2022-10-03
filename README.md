@@ -1,6 +1,6 @@
 # Zoho CRM connector
 
-A simple connector to Zoho CRM API version 3.
+A simple connector to Zoho CRM API v3.
 
 Unlike official Zoho SDK this connector does not provide helpers for each API endpoint.
 Essentially this is just a thin wrapper around Guzzle HTTP client that authorizes requests
@@ -15,7 +15,7 @@ PHP 8.1 or later
 composer require chi-teck/zoho-api-connector
 ```
 
-You need to register your application in [Zoho Developer Console](https://www.zoho.com/crm/developer/docs/api/v3/register-client.html).
+[Register](https://www.zoho.com/crm/developer/docs/api/v3/register-client.html) your application in Zoho Developer Console.
 The way you obtain auth token (grant code) depends on the application type. Refer to [Authorization Request guide](https://www.zoho.com/crm/developer/docs/api/v3/auth-request.html) for details.
 
 ## Usage
