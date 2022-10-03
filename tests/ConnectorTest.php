@@ -7,7 +7,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use PHPUnit\Framework\TestCase;
 use ZohoCrmConnector\Auth\AccessTokenProvider;
-use ZohoCrmConnector\Auth\MemoryStorage;
+use ZohoCrmConnector\Auth\Storage\MemoryStorage;
 use ZohoCrmConnector\Config;
 use ZohoCrmConnector\Connector;
 

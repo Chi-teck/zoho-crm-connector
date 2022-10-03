@@ -5,7 +5,7 @@ namespace ZohoCrmConnector\Auth;
 use Psr\Http\Client\ClientExceptionInterface;
 
 /**
- * API credentials.
+ * Zoho auth exception.
  */
 final class AuthException extends \RuntimeException implements ClientExceptionInterface
 {

@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace ZohoCrmConnector\Auth;
+namespace ZohoCrmConnector\Auth\Storage;
+
+use ZohoCrmConnector\Auth\AccessToken;
 
 /**
  * Implements a storage for tokens using files.
@@ -31,8 +33,8 @@ final class FileStorage implements TokenStorageInterface
         return \unserialize($value);
     }
 
-    public function save(AccessToken $value): void
+    public function save(AccessToken $token): void
     {
-        \file_put_contents($this->fileName, \serialize($value), \LOCK_EX);
+        \file_put_contents($this->fileName, \serialize($token), \LOCK_EX);
     }
 }

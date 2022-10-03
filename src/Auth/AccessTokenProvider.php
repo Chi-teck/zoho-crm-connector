@@ -6,10 +6,11 @@ use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use ZohoCrmConnector\Auth\Storage\TokenStorageInterface;
 use ZohoCrmConnector\Config;
 
 /**
- *
+ * Access token provider for Zoho CRM API.
  */
 final class AccessTokenProvider
 {

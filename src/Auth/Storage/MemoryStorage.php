@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace ZohoCrmConnector\Auth;
+namespace ZohoCrmConnector\Auth\Storage;
+
+use ZohoCrmConnector\Auth\AccessToken;
 
 /**
  * Implements a storage for tokens using memory.
@@ -14,8 +16,8 @@ final class MemoryStorage implements TokenStorageInterface
         return $this->data;
     }
 
-    public function save(AccessToken $data): void
+    public function save(AccessToken $token): void
     {
-        $this->data = clone $data;
+        $this->data = clone $token;
     }
 }

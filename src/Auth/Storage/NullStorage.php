@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace ZohoCrmConnector\Auth;
+namespace ZohoCrmConnector\Auth\Storage;
+
+use ZohoCrmConnector\Auth\AccessToken;
 
 /**
  * Dummy token storage.
@@ -12,7 +14,7 @@ final class NullStorage implements TokenStorageInterface
         return null;
     }
 
-    public function save(AccessToken $data): void
+    public function save(AccessToken $token): void
     {
         // Intentionally empty.
     }

@@ -26,7 +26,7 @@ final class ZohoResponse extends Response
 
     public function decode(): mixed
     {
-        $content_type = $this->getHeader('Content-Type')[0] ?? null;
+        $content_type = $this->getHeaderLine('Content-Type');
         // Mime type can be followed by 'charset' or 'boundary'.
         // Example: 'application/json; charset=UTF-8'.
         if (!$content_type || \explode(';', $content_type)[0] !== 'application/json') {

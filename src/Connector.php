@@ -3,7 +3,6 @@
 namespace ZohoCrmConnector;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use ZohoCrmConnector\Auth\AccessToken;
@@ -20,13 +19,13 @@ use ZohoCrmConnector\Auth\AccessTokenProvider;
  */
 final class Connector
 {
-    private readonly ClientInterface $client;
+    private readonly Client $client;
 
     public function __construct(
         private readonly AccessTokenProvider $tokenProvider,
     ) {}
 
-    public function getClient(): ClientInterface
+    public function getClient(): Client
     {
         if (!isset($this->client)) {
             $this->client = $this->createClient();

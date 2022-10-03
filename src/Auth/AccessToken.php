@@ -11,7 +11,7 @@ final class AccessToken implements \Stringable
 {
     private const AUTH_HEADER_PREFIX = 'Zoho-oauthtoken';
     private const TOKEN_EXPIRE_OFFSET = 30;
-    private int $expires;
+    private readonly int $expires;
 
     public function __construct(
         public readonly string $apiDomain,

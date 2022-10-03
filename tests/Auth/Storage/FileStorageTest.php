@@ -1,10 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace ZohoCrmConnector\Tests\Auth;
+namespace ZohoCrmConnector\Tests\Auth\Storage;
 
 use PHPUnit\Framework\TestCase;
 use ZohoCrmConnector\Auth\AccessToken;
-use ZohoCrmConnector\Auth\FileStorage;
+use ZohoCrmConnector\Auth\Storage\FileStorage;
 
 /**
  * A test for FileStorage.

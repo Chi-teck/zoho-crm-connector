@@ -3,14 +3,13 @@
 namespace ZohoCrmConnector\Tests\Auth;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use PHPUnit\Framework\TestCase;
 use ZohoCrmConnector\Auth\AccessToken;
 use ZohoCrmConnector\Auth\AccessTokenProvider;
 use ZohoCrmConnector\Auth\AuthException;
-use ZohoCrmConnector\Auth\MemoryStorage;
+use ZohoCrmConnector\Auth\Storage\MemoryStorage;
 use ZohoCrmConnector\Config;
 use ZohoCrmConnector\Tests\ZohoHandler;
 
