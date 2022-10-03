@@ -20,6 +20,7 @@ The way you obtain auth token (grant code) depends on the application type. Refe
 
 ## Usage
 ```shell
+// Configuring the connector.
 $config = new Config(
   domain: 'https://accounts.zoho.com',
   clientId: '•••••••••••••••••••••••••••••••••••',
@@ -29,6 +30,8 @@ $config = new Config(
 
 $storage = new FileStorage(__DIR__ . '/path/to/zoho-token.bin');
 $token_provider = new AccessTokenProvider($config, $storage, new Client());
+
+$connector = new Connector($token_provider);
 
 // Retreiving data.
 $response = $connector->get('Leads?fields=Last_Name&per_page=5');
