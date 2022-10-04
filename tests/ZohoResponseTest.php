@@ -14,9 +14,9 @@ final class ZohoResponseTest extends TestCase
     public function testCreateFromResponse(): void
     {
         $response = new Response(
-            status: 200,
-            headers: ['Content-Type' => 'application/json'],
-            body: '{"foo": "bar"}'
+            200,
+            ['Content-Type' => 'application/json'],
+            '{"foo": "bar"}'
         );
         $zoho_response = ZohoResponse::createFromResponse($response);
         self::assertInstanceOf(Response::class, $zoho_response);
@@ -30,15 +30,17 @@ final class ZohoResponseTest extends TestCase
     public function testDecode(): void
     {
         $response = new ZohoResponse(
-            headers: ['Content-Type' => 'application/json;charset=UTF-8'],
-            body: '{"foo": "bar"}'
+            200,
+            ['Content-Type' => 'application/json;charset=UTF-8'],
+            '{"foo": "bar"}'
         );
         $expected_data = (object) ['foo' => 'bar'];
         self::assertEquals($expected_data, $response->decode());
 
         $response = new ZohoResponse(
-            headers: ['Content-Type' => 'application/json'],
-            body: '123'
+            200,
+            ['Content-Type' => 'application/json'],
+            '123'
         );
         self::assertEquals(123, $response->decode());
 

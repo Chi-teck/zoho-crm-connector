@@ -22,12 +22,7 @@ final class ConnectorTest extends TestCase
         $handlerStack->push(Middleware::httpErrors());
         $client = new Client(['handler' => $handlerStack]);
 
-        $config = new Config(
-            domain: 'https://accounts.zoho.com',
-            clientId: 'CLIENT_ID',
-            clientSecret: 'CLIENT_SECRET',
-            authToken: 'AUTH_TOKEN',
-        );
+        $config = new Config('https://accounts.zoho.com', 'CLIENT_ID', 'CLIENT_SECRET', 'AUTH_TOKEN');
         $storage = new MemoryStorage();
         $token_provider = new AccessTokenProvider($config, $storage, $client);
         $connector = new Connector($token_provider);

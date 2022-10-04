@@ -9,7 +9,10 @@ use ZohoCrmConnector\Auth\AccessToken;
  */
 final class MemoryStorage implements TokenStorageInterface
 {
-    private ?AccessToken $data = null;
+    /**
+     * @var \ZohoCrmConnector\Auth\AccessToken|null
+     */
+    private $data;
 
     public function load(): ?AccessToken
     {

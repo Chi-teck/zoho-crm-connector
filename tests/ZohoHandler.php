@@ -23,11 +23,17 @@ final class ZohoHandler
      */
     public function __invoke(RequestInterface $request): FulfilledPromise
     {
-        $response = match ($request->getUri()->getPath()) {
-            '/oauth/v2/token' => self::authController($request),
-            '/Leads' => self::leadsController($request),
-            default => new Response(404),
-        };
+        switch ($request->getUri()->getPath()) {
+            case '/oauth/v2/token':
+                $response = self::authController($request);
+                break;
+            case '/Leads':
+                $response = self::leadsController($request);
+                break;
+            default:
+                $response = new Response(404);
+                break;
+        }
         return new FulfilledPromise($response);
     }
 
@@ -48,7 +54,7 @@ final class ZohoHandler
               $form_params['code'] === self::AUTH_TOKEN;
 
             if (!$is_valid) {
-                return new Response(body: '{"error": "wrong_client"}');
+                return new Response(200, [], '{"error": "wrong_client"}');
             }
             $data = [
               'access_token' => self::ACCESS_TOKEN_1,
@@ -57,7 +63,7 @@ final class ZohoHandler
               'api_domain' => 'https://api.example.com',
               'token_type' => 'Barier',
             ];
-            return new Response(body: \json_encode($data));
+            return new Response(200, [], \json_encode($data));
         // Refresh request.
         } elseif (\count($query_params) > 0 && $query_params['grant_type'] === 'refresh_token') {
             $is_valid =
@@ -65,7 +71,7 @@ final class ZohoHandler
                   $query_params['client_secret'] === self::CLIENT_SECRET &&
                   $query_params['refresh_token'] === self::REFRESH_TOKEN;
             if (!$is_valid) {
-                return new Response(body: '{"error": "wrong_client"}');
+                return new Response(200, [], '{"error": "wrong_client"}');
             }
             $data = [
                 'access_token' => self::ACCESS_TOKEN_2,
@@ -73,7 +79,7 @@ final class ZohoHandler
                 'api_domain' => 'https://api.example.com',
                 'token_type' => 'Barier',
             ];
-            return new Response(body: \json_encode($data));
+            return new Response(200, [], \json_encode($data));
         }
 
         return new Response(400);
@@ -89,9 +95,6 @@ final class ZohoHandler
             ['id' => 102],
             ['id' => 103],
         ];
-        return new Response(
-            headers: ['Content-Type' => 'application/json'],
-            body: \json_encode($body),
-        );
+        return new Response(200, ['Content-Type' => 'application/json'], \json_encode($body));
     }
 }

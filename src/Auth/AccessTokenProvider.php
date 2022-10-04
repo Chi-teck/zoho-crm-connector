@@ -14,13 +14,34 @@ use ZohoCrmConnector\Config;
  */
 final class AccessTokenProvider
 {
-    public function __construct(
-        private readonly Config $config,
-        private readonly TokenStorageInterface $storage,
-        private readonly Client $client,
-        private readonly LoggerInterface $logger = new NullLogger(),
-    ) {}
-
+    /**
+     * @readonly
+     * @var \ZohoCrmConnector\Config
+     */
+    private $config;
+    /**
+     * @readonly
+     * @var \ZohoCrmConnector\Auth\Storage\TokenStorageInterface
+     */
+    private $storage;
+    /**
+     * @readonly
+     * @var \GuzzleHttp\Client
+     */
+    private $client;
+    /**
+     * @readonly
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+    public function __construct(Config $config, TokenStorageInterface $storage, Client $client, LoggerInterface $logger = null)
+    {
+        $logger = $logger ?? new NullLogger();
+        $this->config = $config;
+        $this->storage = $storage;
+        $this->client = $client;
+        $this->logger = $logger;
+    }
     public function getToken(): AccessToken
     {
         $access_token = $this->storage->load();
@@ -51,12 +72,7 @@ final class AccessTokenProvider
         if (isset($result->error)) {
             throw new AuthException($result->error);
         }
-        return new AccessToken(
-            apiDomain:  $result->api_domain,
-            expiresIn: $result->expires_in,
-            accessToken: $result->access_token,
-            refreshToken: $result->refresh_token,
-        );
+        return new AccessToken($result->api_domain, $result->expires_in, $result->access_token, $result->refresh_token);
     }
 
     private function refreshToken(AccessToken $token): AccessToken
@@ -72,12 +88,7 @@ final class AccessTokenProvider
         if (isset($result->error)) {
             throw new AuthException($result->error);
         }
-        return new AccessToken(
-            apiDomain:  $result->api_domain,
-            expiresIn: $result->expires_in,
-            accessToken: $result->access_token,
-            refreshToken: $token->refreshToken,
-        );
+        return new AccessToken($result->api_domain, $result->expires_in, $result->access_token, $token->refreshToken);
     }
 
     private function buildUrl(): string
@@ -85,7 +96,10 @@ final class AccessTokenProvider
         return $this->config->domain . '/oauth/v2/token';
     }
 
-    private function decodeResponse(ResponseInterface $response): mixed
+    /**
+     * @return mixed
+     */
+    private function decodeResponse(ResponseInterface $response)
     {
         // @todo Check content type.
         // @todo Check data structure.

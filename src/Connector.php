@@ -19,11 +19,20 @@ use ZohoCrmConnector\Auth\AccessTokenProvider;
  */
 final class Connector
 {
-    private readonly Client $client;
-
-    public function __construct(
-        private readonly AccessTokenProvider $tokenProvider,
-    ) {}
+    /**
+     * @readonly
+     * @var \GuzzleHttp\Client
+     */
+    private $client;
+    /**
+     * @readonly
+     * @var \ZohoCrmConnector\Auth\AccessTokenProvider
+     */
+    private $tokenProvider;
+    public function __construct(AccessTokenProvider $tokenProvider)
+    {
+        $this->tokenProvider = $tokenProvider;
+    }
 
     public function getClient(): Client
     {
@@ -35,7 +44,7 @@ final class Connector
 
     public function createClient(array $config = []): Client
     {
-        $config['handler'] ??= HandlerStack::create();
+        $config['handler'] = $config['handler'] ?? HandlerStack::create();
 
         $access_token = $this->tokenProvider->getToken();
 
@@ -48,8 +57,9 @@ final class Connector
 
     /**
      * Proxy some Guzzle request methods.
+     * @return mixed
      */
-    public function __call(string $name, array $arguments): mixed
+    public function __call(string $name, array $arguments)
     {
         // Add a little syntactic sugar to make the input structure a bit
         // smaller.
@@ -57,10 +67,18 @@ final class Connector
             $arguments[1]['json']['data'] = $arguments[1]['data'];
             unset($arguments[1]['data']);
         }
-        $method = match ($name) {
-            'get', 'head', 'post', 'put', 'patch', 'delete' => $name,
-            default => throw new \InvalidArgumentException('Unsupported Guzzle method.'),
-        };
+        switch ($name) {
+            case 'get':
+            case 'head':
+            case 'post':
+            case 'put':
+            case 'patch':
+            case 'delete':
+                $method = $name;
+                break;
+            default:
+                throw new \InvalidArgumentException('Unsupported Guzzle method.');
+        }
         return $this->getClient()->{$method}(...$arguments);
     }
 

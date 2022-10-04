@@ -9,15 +9,19 @@ use ZohoCrmConnector\Auth\AccessToken;
  */
 final class FileStorage implements TokenStorageInterface
 {
-    public function __construct(
-        private readonly string $fileName,
-    ) {
+    /**
+     * @readonly
+     * @var string
+     */
+    private $fileName;
+    public function __construct(string $fileName)
+    {
+        $this->fileName = $fileName;
         $dir_name = \dirname($this->fileName);
         if (!\file_exists($dir_name) || !\is_dir($dir_name)) {
             throw new \RuntimeException(\sprintf('Directory "%s" does not exist.', $dir_name));
         }
     }
-
     public function load(): ?AccessToken
     {
         if (!\file_exists($this->fileName)) {

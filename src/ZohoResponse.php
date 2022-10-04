@@ -24,7 +24,10 @@ final class ZohoResponse extends Response
         );
     }
 
-    public function decode(): mixed
+    /**
+     * @return mixed
+     */
+    public function decode()
     {
         $content_type = $this->getHeaderLine('Content-Type');
         // Mime type can be followed by 'charset' or 'boundary'.
