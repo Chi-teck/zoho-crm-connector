@@ -23,4 +23,12 @@ final class MemoryStorage implements TokenStorageInterface
     {
         $this->data = clone $token;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(): void
+    {
+        $this->data = null;
+    }
 }

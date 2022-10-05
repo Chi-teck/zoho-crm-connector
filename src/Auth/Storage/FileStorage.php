@@ -41,4 +41,14 @@ final class FileStorage implements TokenStorageInterface
     {
         \file_put_contents($this->fileName, \serialize($token), \LOCK_EX);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(): void
+    {
+        if (\file_exists($this->fileName)) {
+            \unlink($this->fileName);
+        }
+    }
 }
