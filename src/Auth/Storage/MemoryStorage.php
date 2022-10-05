@@ -11,13 +11,27 @@ final class MemoryStorage implements TokenStorageInterface
 {
     private ?AccessToken $data = null;
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(): ?AccessToken
     {
         return $this->data;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save(AccessToken $token): void
     {
         $this->data = clone $token;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(): void
+    {
+        $this->data = null;
     }
 }

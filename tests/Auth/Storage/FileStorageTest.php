@@ -22,6 +22,9 @@ final class FileStorageTest extends TestCase
         $stored_token = $storage->load();
         self::assertEquals($token, $stored_token);
 
+        $storage->delete();
+        self::assertNull($storage->load());
+
         $directory = \sys_get_temp_dir() . '/not/existing/directory';
         self::expectExceptionObject(
             new \RuntimeException(\sprintf('Directory "%s" does not exist.', $directory)),

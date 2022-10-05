@@ -9,7 +9,18 @@ use ZohoCrmConnector\Auth\AccessToken;
  */
 interface TokenStorageInterface
 {
+    /**
+     * Loads the token from storage.
+     */
     public function load(): ?AccessToken;
 
+    /**
+     * Saves the token to strage.
+     */
     public function save(AccessToken $token): void;
+
+    /**
+     * Deletes the token from storage
+     */
+    public function delete(): void;
 }

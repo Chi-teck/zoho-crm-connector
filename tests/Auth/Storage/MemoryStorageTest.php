@@ -20,5 +20,8 @@ final class MemoryStorageTest extends TestCase
 
         $stored_token = $storage->load();
         self::assertEquals($token, $stored_token);
+
+        $storage->delete();
+        self::assertNull($storage->load());
     }
 }

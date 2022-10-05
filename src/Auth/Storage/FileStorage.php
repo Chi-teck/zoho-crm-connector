@@ -18,6 +18,9 @@ final class FileStorage implements TokenStorageInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(): ?AccessToken
     {
         if (!\file_exists($this->fileName)) {
@@ -33,8 +36,21 @@ final class FileStorage implements TokenStorageInterface
         return \unserialize($value);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save(AccessToken $token): void
     {
         \file_put_contents($this->fileName, \serialize($token), \LOCK_EX);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(): void
+    {
+        if (\file_exists($this->fileName)) {
+            \unlink($this->fileName);
+        }
     }
 }

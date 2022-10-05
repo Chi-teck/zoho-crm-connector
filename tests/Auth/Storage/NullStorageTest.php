@@ -17,5 +17,8 @@ final class NullStorageTest extends TestCase
         $token = new AccessToken('https://example.com', 3600, '123', '456');
         $storage->save($token);
         self::assertNull($storage->load());
+
+        $storage->delete();
+        self::assertNull($storage->load());
     }
 }

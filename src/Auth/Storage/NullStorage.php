@@ -18,4 +18,9 @@ final class NullStorage implements TokenStorageInterface
     {
         // Intentionally empty.
     }
+
+    public function delete(): void
+    {
+        // Intentionally empty.
+    }
 }
