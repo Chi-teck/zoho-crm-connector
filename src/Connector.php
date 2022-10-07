@@ -56,6 +56,19 @@ final class Connector
     }
 
     /**
+     * This method might be helpful to check auth status.
+     */
+    public function getToken(): AccessToken
+    {
+        return $this->tokenProvider->getToken();
+    }
+
+    public function deleteToken(): void
+    {
+        $this->tokenProvider->deleteToken();
+    }
+
+    /**
      * Proxy some Guzzle request methods.
      * @return mixed
      */

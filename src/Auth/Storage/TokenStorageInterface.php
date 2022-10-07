@@ -12,4 +12,6 @@ interface TokenStorageInterface
     public function load(): ?AccessToken;
 
     public function save(AccessToken $token): void;
+
+    public function delete(): void;
 }
