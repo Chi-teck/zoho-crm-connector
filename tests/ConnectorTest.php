@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use PHPUnit\Framework\TestCase;
+use ZohoCrmConnector\Auth\AccessToken;
 use ZohoCrmConnector\Auth\AccessTokenProvider;
 use ZohoCrmConnector\Auth\Storage\MemoryStorage;
 use ZohoCrmConnector\Config;
@@ -18,6 +19,35 @@ final class ConnectorTest extends TestCase
 {
     public function testCreateClient(): void
     {
+        $connector = self::createConnector(new MemoryStorage());
+
+        $handlerStack = new HandlerStack(new ZohoHandler());
+        $handlerStack->push(Middleware::httpErrors());
+        $client = $connector->createClient(['handler' => $handlerStack]);
+
+        $response = $client->get('/Leads');
+        $expected_result['data'] = [
+            ['id' => 101],
+            ['id' => 102],
+            ['id' => 103],
+        ];
+        self::assertSame(\json_encode($expected_result), (string) $response->getBody());
+    }
+
+    public function testGetAndDeleteToken(): void
+    {
+        $storage = new MemoryStorage();
+        $connector = self::createConnector($storage);
+
+        $token = $connector->getToken();
+        self::assertInstanceOf(AccessToken::class, $token);
+
+        $connector->deleteToken();
+        self::assertNull($storage->load());
+    }
+
+    private static function createConnector(MemoryStorage $storage): Connector
+    {
         $handlerStack = new HandlerStack(new ZohoHandler());
         $handlerStack->push(Middleware::httpErrors());
         $client = new Client(['handler' => $handlerStack]);
@@ -28,18 +58,7 @@ final class ConnectorTest extends TestCase
             clientSecret: 'CLIENT_SECRET',
             authToken: 'AUTH_TOKEN',
         );
-        $storage = new MemoryStorage();
         $token_provider = new AccessTokenProvider($config, $storage, $client);
-        $connector = new Connector($token_provider);
-
-        $client = $connector->createClient(['handler' => $handlerStack]);
-
-        $response = $client->get('/Leads');
-        $expected_result['data'] = [
-            ['id' => 101],
-            ['id' => 102],
-            ['id' => 103],
-        ];
-        self::assertSame(\json_encode($expected_result), (string) $response->getBody());
+        return new Connector($token_provider);
     }
 }

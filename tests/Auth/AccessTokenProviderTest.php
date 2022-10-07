@@ -52,6 +52,22 @@ final class AccessTokenProviderTest extends TestCase
         self::assertEquals($token, $storage->load());
     }
 
+    public function testDeleteToken(): void
+    {
+        $storage = new MemoryStorage();
+
+        $provider = new AccessTokenProvider(self::createConfig(), $storage, self::createClient());
+        $token = $provider->getToken();
+
+        self::assertInstanceOf(AccessToken::class, $token);
+
+        // Check if the token has been stored.
+        self::assertEquals($token, $storage->load());
+
+        $provider->deleteToken();
+        self::assertNull($storage->load());
+    }
+
     public function testErrors(): void
     {
         $storage = new MemoryStorage();

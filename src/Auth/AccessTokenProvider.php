@@ -38,6 +38,11 @@ final class AccessTokenProvider
         return $access_token;
     }
 
+    public function deleteToken(): void
+    {
+        $this->storage->delete();
+    }
+
     private function createToken(): AccessToken
     {
         $options['form_params'] = [
